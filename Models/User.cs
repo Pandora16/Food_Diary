@@ -1,4 +1,5 @@
-namespace Дневник_Питания.UserManagment
+// Models/User.cs
+namespace Дневник_Питания.Models
 {
     public class User
     {

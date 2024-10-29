@@ -1,3 +1,4 @@
+using Дневник_Питания.Models;
 using Дневник_Питания.UserManagment;
 
 namespace Дневник_Питания;

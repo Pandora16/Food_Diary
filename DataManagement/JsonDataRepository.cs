@@ -1,25 +1,26 @@
+using Newtonsoft.Json;
+using Дневник_Питания.DataManagement;
 using Дневник_Питания.Meal;
 
-namespace Дневник_Питания.DataManagement;
-using Newtonsoft.Json;
-
-
-public class JsonDataRepository : IDataRepository
+namespace Food_Diary.Data
 {
-    private readonly string _filePath = "foodDiary.json";
-
-    public async Task SaveDataAsync(FoodDiaryData diary)
+    public class JsonDataRepository : IDataRepository
     {
-        var jsonData = JsonConvert.SerializeObject(diary);
-        await File.WriteAllTextAsync(_filePath, jsonData);
-    }
+        private readonly string _filePath = "foodDiary.json";
 
-    public async Task<FoodDiaryData> LoadDataAsync()
-    {
-        if (!File.Exists(_filePath))
-            return new FoodDiaryData();
+        public async Task SaveDataAsync(FoodDiaryData diary)
+        {
+            var jsonData = JsonConvert.SerializeObject(diary);
+            await File.WriteAllTextAsync(_filePath, jsonData);
+        }
 
-        var jsonData = await File.ReadAllTextAsync(_filePath);
-        return JsonConvert.DeserializeObject<FoodDiaryData>(jsonData) ?? new FoodDiaryData();
+        public async Task<FoodDiaryData> LoadDataAsync()
+        {
+            if (!File.Exists(_filePath))
+                return new FoodDiaryData();
+
+            var jsonData = await File.ReadAllTextAsync(_filePath);
+            return JsonConvert.DeserializeObject<FoodDiaryData>(jsonData) ?? new FoodDiaryData();
+        }
     }
 }

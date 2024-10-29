@@ -1,10 +1,11 @@
+using Food_Diary.Models;
 using Дневник_Питания.Meal;
 
 namespace Дневник_Питания.Statistics
 {
     public class DailyStatistics
     {
-        public void ShowDailyStatistics(List<Food> foods)
+        public void ShowDailyStatistics(List<FoodEntry> foods)
         {
             DateTime today = DateTime.Now.Date;
             var dailyFoods = foods.Where(f => f.Date.Date == today).ToList();

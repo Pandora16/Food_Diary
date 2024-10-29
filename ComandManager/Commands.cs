@@ -1,5 +1,7 @@
+using Food_Diary.Models;
 using Дневник_Питания.Interface;
 using Дневник_Питания.Meal;
+using Дневник_Питания.Models;
 using Дневник_Питания.UserManagment;
 
 namespace Дневник_Питания.ComandManager;
@@ -28,9 +30,9 @@ namespace Дневник_Питания.ComandManager;
     {
         private readonly IDataManager _dataManager;
         private readonly User _user;
-        private readonly List<Food> _foods;
+        private readonly List<FoodEntry> _foods;
 
-        public ExitCommand(IDataManager dataManager, User user, List<Food> foods)
+        public ExitCommand(IDataManager dataManager, User user, List<FoodEntry> foods)
         {
             _dataManager = dataManager;
             _user = user;

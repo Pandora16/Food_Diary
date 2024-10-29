@@ -1,10 +1,11 @@
+using Food_Diary.Models;
 using Дневник_Питания.Meal;
 
 namespace Дневник_Питания.Statistics
 {
     public class WeeklyStatistics
     {
-        public void ShowWeeklyStatistics(List<Food> foods)
+        public void ShowWeeklyStatistics(List<FoodEntry> foods)
         {
             DateTime weekStart = DateTime.Now.Date.AddDays(-7);
             var weeklyFoods = foods.Where(f => f.Date.Date >= weekStart).ToList();

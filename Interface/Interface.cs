@@ -1,6 +1,7 @@
 ﻿using Дневник_Питания.ComandManager;
 using Дневник_Питания.Interface;
 using Дневник_Питания.Meal;
+using Дневник_Питания.Models;
 using Дневник_Питания.UserManagment;
 
 internal static class Interface
