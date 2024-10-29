@@ -2,7 +2,7 @@ using Дневник_Питания.UserManagment;
 
 namespace Дневник_Питания.Meal;
 
-class FoodDiaryData
+public class FoodDiaryData
 {
     public List<Food> Foods { get; set; } = new List<Food>();
 

@@ -1,0 +1,14 @@
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Дневник Питания.exe
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Дневник Питания.deps.json
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Дневник Питания.runtimeconfig.json
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Дневник Питания.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Дневник Питания.pdb
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.AssemblyInfoInputs.cache
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.AssemblyInfo.cs
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.csproj.CoreCompileInputs.cache
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.dll
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\refint\Дневник Питания.dll
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.pdb
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.genruntimeconfig.cache
+C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\ref\Дневник Питания.dll

@@ -1,5 +1,5 @@
 ﻿using Дневник_Питания.ComandManager;
-using Дневник_Питания.Consol;
+using Дневник_Питания.Interface;
 using Дневник_Питания.Meal;
 using Дневник_Питания.UserManagment;
 

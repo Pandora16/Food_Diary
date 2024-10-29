@@ -1,5 +1,5 @@
+using Дневник_Питания.Interface;
 namespace Дневник_Питания.UserManagment;
-using Дневник_Питания.Consol;
 
 public class UserInputManager
 {

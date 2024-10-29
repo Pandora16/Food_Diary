@@ -1,0 +1,49 @@
+{
+  "User": {
+    "Height": 170,
+    "Weight": 50,
+    "Age": 21,
+    "Gender": "\u0436",
+    "ActivityLevel": "2",
+    "BMR": 1296.5,
+    "TargetCalories": 500
+  },
+  "Foods": [
+    {
+      "Name": "Omlet",
+      "Calories": 150,
+      "Proteins": 12,
+      "Fats": 34,
+      "Carbohydrates": 44,
+      "MealTime": "\u0437\u0430\u0432\u0442\u0440\u0430\u043A",
+      "Date": "0001-01-01T00:00:00"
+    },
+    {
+      "Name": "Borsch",
+      "Calories": 200,
+      "Proteins": 23,
+      "Fats": 456,
+      "Carbohydrates": 332,
+      "MealTime": "\u043E\u0431\u0435\u0434",
+      "Date": "0001-01-01T00:00:00"
+    },
+    {
+      "Name": "Rice",
+      "Calories": 230,
+      "Proteins": 120,
+      "Fats": 345,
+      "Carbohydrates": 235,
+      "MealTime": "\u0443\u0436\u0438\u043D",
+      "Date": "0001-01-01T00:00:00"
+    },
+    {
+      "Name": "chocolate bar",
+      "Calories": 100,
+      "Proteins": 34,
+      "Fats": 34,
+      "Carbohydrates": 56,
+      "MealTime": "\u043E\u0431\u0435\u0434",
+      "Date": "0001-01-01T00:00:00"
+    }
+  ]
+}
