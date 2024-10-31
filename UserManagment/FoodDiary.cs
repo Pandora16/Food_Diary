@@ -1,29 +1,26 @@
-using Food_Diary.Models;
-using Дневник_Питания.Models;
 using Дневник_Питания.UserManagment;
 
 namespace Дневник_Питания.Meal;
 
-public class FoodDiaryData
+class FoodDiary
 {
-    public List<FoodEntry> Foods { get; set; } = new List<FoodEntry>();
-    public User User { get; set; }
+    public List<Food> Foods { get; set; } = new List<Food>();
 
     public void AddFood()
     {
-        FoodEntry foodEntry = new FoodEntry();
+        Food food = new Food();
 
         // Проверка, что название продукта не состоит только из цифр
         while (true)
         {
             Console.Write("Введите название продукта: ");
-            foodEntry.Name = Console.ReadLine();
+            food.Name = Console.ReadLine();
 
-            if (string.IsNullOrWhiteSpace(foodEntry.Name))
+            if (string.IsNullOrWhiteSpace(food.Name))
             {
                 Console.WriteLine("Ошибка! Название продукта не может быть пустым.");
             }
-            else if (!foodEntry.Name.Any(char.IsLetter))
+            else if (!food.Name.Any(char.IsLetter))
             {
                 Console.WriteLine("Ошибка! Название продукта не должно состоять только из цифр.");
             }
@@ -33,13 +30,13 @@ public class FoodDiaryData
             }
         }
 
-        foodEntry.Calories = UserInputManager.GetPositiveDouble("Введите калорийность продукта (в kkaл): ");
-        foodEntry.Proteins = UserInputManager.GetPositiveDouble("Введите количество белков (в г): ");
-        foodEntry.Fats = UserInputManager.GetPositiveDouble("Введите количество жиров (в г): ");
-        foodEntry.Carbohydrates = UserInputManager.GetPositiveDouble("Введите количество углеводов (в г): ");
-        foodEntry.MealType = UserInputManager.GetMealTime();
+        food.Calories = UserInputManager.GetPositiveDouble("Введите калорийность продукта (в kkaл): ");
+        food.Proteins = UserInputManager.GetPositiveDouble("Введите количество белков (в г): ");
+        food.Fats = UserInputManager.GetPositiveDouble("Введите количество жиров (в г): ");
+        food.Carbohydrates = UserInputManager.GetPositiveDouble("Введите количество углеводов (в г): ");
+        food.MealTime = UserInputManager.GetMealTime();
 
-        Foods.Add(foodEntry);
+        Foods.Add(food);
         Console.WriteLine("Продукт успешно добавлен!");
     }
 
@@ -84,7 +81,7 @@ public class FoodDiaryData
         }
 
         // Группируем продукты по приему пищи (завтрак, обед, ужин)
-        var mealsGrouped = Foods.GroupBy(f => f.MealType)
+        var mealsGrouped = Foods.GroupBy(f => f.MealTime)
             .ToDictionary(g => g.Key, g => g.ToList());
 
         double totalCaloriesConsumed = 0;

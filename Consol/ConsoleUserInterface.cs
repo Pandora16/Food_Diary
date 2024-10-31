@@ -1,4 +1,4 @@
-using Дневник_Питания.Interface;
+namespace Дневник_Питания.Consol;
 
 public class ConsoleUserInterface : IUserInterface
 {

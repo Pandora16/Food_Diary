@@ -1,9 +1,8 @@
-using Дневник_Питания.Models;
 using Дневник_Питания.UserManagment;
 
 namespace Дневник_Питания;
 
-public class CalorieCalculator
+public partial class CalorieCalculator
 {
     public static double CalculateBMR(User user)
     {
