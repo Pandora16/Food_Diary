@@ -1,6 +1,8 @@
+using Дневник_Питания.Core.Interfaces;
+
 namespace Дневник_Питания.Core.Services;
 
-public class UserInputManager
+public class UserInputManager : IUserInputManager
 {
     // Метод для ввода целого положительного числа ( рост и вес )
     public static int GetPositiveInteger(string message)
@@ -18,7 +20,7 @@ public class UserInputManager
     }
 
     // Метод для ввода положительного вещественного числа ( ккал, жиры, белки, углеводы )
-    public static double GetPositiveDouble(string message)
+    public double GetPositiveDouble(string message)
     {
         double value;
         while (true)
@@ -33,7 +35,7 @@ public class UserInputManager
     }
     
     // Метод для ввода времени приема пищи с проверкой
-        public static string GetMealTime()
+        public string GetMealTime()
         {
             while (true)
             {

@@ -1,8 +1,8 @@
+using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Models;
 using Дневник_Питания.Core.Services;
 using Дневник_Питания.Data;
 using static Дневник_Питания.Core.Services.UserInputManager;
-using static Дневник_Питания.Core.Services.CalorieCalculator;
 
 namespace Дневник_Питания.Program
 {
@@ -12,7 +12,14 @@ namespace Дневник_Питания.Program
         {
             string filePath = "foodDiary.json";
             User user;
-            FoodDiaryManager foodDiaryManager = new FoodDiaryManager();
+
+            // Создание необходимых интерфейсов
+            IUserInputManager inputManager = new UserInputManager();
+            ICalorieCalculator calorieCalculator = new CalorieCalculator();
+            IUserInterface userInterface = new ConsoleUserInterface();
+
+            // Создаем экземпляр FoodDiaryManager с необходимыми зависимостями
+            FoodDiaryManager foodDiaryManager = new FoodDiaryManager(inputManager, calorieCalculator, userInterface);
             FileManager fileManager = new FileManager();
 
             // Удаление загруженных данных, если они есть, по выбору пользователя 
@@ -37,14 +44,14 @@ namespace Дневник_Питания.Program
                     Console.WriteLine("Ошибка при загрузке данных.");
                     return;
                 }
-                // AddRange - метод класса List<T>, который добавляет несколько элементов из другой коллекции в текущий список.
-                // В данном случае, мы передаём foods, чтобы добавить все загруженные продукты в foodDiary. Foods сразу, а не по одному.
                 foodDiaryManager.Foods.AddRange(foods); // Добавляем загруженные продукты в foodDiary
             }
             else
             {
-                user = CreateNewUser();
+                user = CreateNewUser(calorieCalculator); // Передаем экземпляр calorieCalculator
+                ;
             }
+
             // Экземпляр FileManager передаётся в MainLoop, чтобы можно было использовать его методы SaveData и LoadData
             MainLoop(user, foodDiaryManager, fileManager, filePath);
         }
@@ -55,13 +62,11 @@ namespace Дневник_Питания.Program
             while (true)
             {
                 Console.WriteLine(message);
-                // ToLower преобразует строку, введённую пользователем, в нижний регистр.
-                // Это позволяет избежать ошибок при сравнении: если пользователь введёт "Да" или "ДА", мы всё равно получим "да".
                 response = Console.ReadLine().ToLower();
 
                 if (response == "да" || response == "нет")
                 {
-                    break; // Ввод корректен, выходим из цикла
+                    break;
                 }
                 else
                 {
@@ -71,7 +76,7 @@ namespace Дневник_Питания.Program
             return response;
         }
 
-        private static User CreateNewUser()
+        private static User CreateNewUser(ICalorieCalculator calorieCalculator)
         {
             User user = new User();
             Console.WriteLine("Добро пожаловать в электронный дневник питания!");
@@ -80,14 +85,13 @@ namespace Дневник_Питания.Program
             user.Age = GetPositiveInteger("Введите ваш возраст (в годах): ");
             user.Gender = GetGender();
             user.ActivityLevel = GetActivityLevel();
-            user.BMR = CalculateBMR(user);
+            user.BMR = calorieCalculator.CalculateBMR(user); // Вызов метода через экземпляр
             user.TargetCalories = GetPositiveInteger("Введите вашу целевую калорийность (в ккал): ");
             return user;
         }
-        // Метод MainLoop представляет собой основной цикл приложения,
-        // где происходит взаимодействие с пользователем.
-        // Он позволяет пользователю добавлять продукты, просматривать статистику и выходить из приложения
-        private static void MainLoop(User user, FoodDiaryManager foodDiaryManager, FileManager fileManager, string filePath) //
+
+
+        private static void MainLoop(User user, FoodDiaryManager foodDiaryManager, FileManager fileManager, string filePath)
         {
             while (true)
             {
@@ -99,7 +103,6 @@ namespace Дневник_Питания.Program
                 Console.Write("Выберите действие (1-3): ");
                 string action = Console.ReadLine();
 
-                // Проверка на корректный ввод
                 if (action == "1")
                 {
                     foodDiaryManager.AddFood(); // Используем метод AddFood класса FoodDiary

@@ -2,9 +2,9 @@ using Дневник_Питания.Core.Models;
 
 namespace Дневник_Питания.Core.Services;
 
-public partial class CalorieCalculator
+public class CalorieCalculator : ICalorieCalculator
 {
-    public static double CalculateBMR(User user)
+    public double CalculateBMR(User user)
     {
         if (user.Gender == "м")
         {
@@ -18,7 +18,7 @@ public partial class CalorieCalculator
         }
     }
 
-    public static double CalculateTotalCalories(User user)
+    public double CalculateTotalCalories(User user)
     {
         double activityFactor;
         if (user.ActivityLevel == "1") activityFactor = 1.2;
