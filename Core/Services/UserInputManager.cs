@@ -1,4 +1,4 @@
-namespace Дневник_Питания.UserManagment;
+namespace Дневник_Питания.Core.Services;
 
 public class UserInputManager
 {

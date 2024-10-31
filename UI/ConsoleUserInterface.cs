@@ -1,4 +1,6 @@
-namespace Дневник_Питания.Consol;
+using Дневник_Питания.Core.Interfaces;
+
+namespace Дневник_Питания.UI;
 
 public class ConsoleUserInterface : IUserInterface
 {

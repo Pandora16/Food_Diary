@@ -1,14 +1,15 @@
-using Дневник_Питания.UserManagment;
+using Дневник_Питания.Core.Models;
 
-namespace Дневник_Питания.Meal;
+namespace Дневник_Питания.Core.Services;
 
-class FoodDiary
+class FoodDiaryManager
 {
     public List<Food> Foods { get; set; } = new List<Food>();
 
     public void AddFood()
     {
         Food food = new Food();
+        food.Date = DateTime.Now;
 
         // Проверка, что название продукта не состоит только из цифр
         while (true)
@@ -67,6 +68,7 @@ class FoodDiary
         DateTime now = DateTime.Now;
         DateTime startDate;
 
+        // Определяем период
         if (choice == "1")
         {
             startDate = now.Date; // Сегодня
@@ -80,8 +82,10 @@ class FoodDiary
             startDate = now.Date.AddMonths(-1); // Последний месяц
         }
 
-        // Группируем продукты по приему пищи (завтрак, обед, ужин)
-        var mealsGrouped = Foods.GroupBy(f => f.MealTime)
+        // Фильтрация и группировка продуктов по приему пищи (завтрак, обед, ужин)
+        var mealsGrouped = Foods
+            .Where(f => f.Date >= startDate && f.Date <= now)
+            .GroupBy(f => f.MealTime)
             .ToDictionary(g => g.Key, g => g.ToList());
 
         double totalCaloriesConsumed = 0;
@@ -94,7 +98,7 @@ class FoodDiary
 
             double mealCalories = 0;
 
-            // Выводим все продукты и калории для данного приёма пищи
+            // Выводим продукты и калории для приема пищи
             foreach (var food in meal.Value)
             {
                 Console.WriteLine($"{food.Name} - {food.Calories} ккал");
@@ -105,12 +109,11 @@ class FoodDiary
             Console.WriteLine($"Всего на {meal.Key}: {mealCalories} ккал");
         }
 
-        // Общая сумма потребленных калорий
         Console.WriteLine($"\nОбщая статистика за выбранный период времени:");
         Console.WriteLine($"Потреблено калорий: {totalCaloriesConsumed} ккал");
 
-        // Расчет сожженных калорий по BMR
-        double totalCaloriesBurned = CalorieCalculator.CalculateTotalCalories(user) * (now - startDate).Days;
+        double dailyCaloriesBurned = CalorieCalculator.CalculateTotalCalories(user);
+        double totalCaloriesBurned = dailyCaloriesBurned * (now - startDate).TotalDays;
 
         Console.WriteLine($"Сожженные калории по расчету BMR: {totalCaloriesBurned} ккал");
 
@@ -125,3 +128,4 @@ class FoodDiary
         }
     }
 }
+    

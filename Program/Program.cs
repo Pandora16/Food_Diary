@@ -1,8 +1,8 @@
-using Дневник_Питания.DataManagement;
-using Дневник_Питания.Meal;
-using Дневник_Питания.UserManagment;
-using static Дневник_Питания.UserManagment.UserInputManager;
-using static Дневник_Питания.CalorieCalculator;
+using Дневник_Питания.Core.Models;
+using Дневник_Питания.Core.Services;
+using Дневник_Питания.Data;
+using static Дневник_Питания.Core.Services.UserInputManager;
+using static Дневник_Питания.Core.Services.CalorieCalculator;
 
 namespace Дневник_Питания.Program
 {
@@ -12,7 +12,7 @@ namespace Дневник_Питания.Program
         {
             string filePath = "foodDiary.json";
             User user;
-            FoodDiary foodDiary = new FoodDiary();
+            FoodDiaryManager foodDiaryManager = new FoodDiaryManager();
             FileManager fileManager = new FileManager();
 
             // Удаление загруженных данных, если они есть, по выбору пользователя 
@@ -39,14 +39,14 @@ namespace Дневник_Питания.Program
                 }
                 // AddRange - метод класса List<T>, который добавляет несколько элементов из другой коллекции в текущий список.
                 // В данном случае, мы передаём foods, чтобы добавить все загруженные продукты в foodDiary. Foods сразу, а не по одному.
-                foodDiary.Foods.AddRange(foods); // Добавляем загруженные продукты в foodDiary
+                foodDiaryManager.Foods.AddRange(foods); // Добавляем загруженные продукты в foodDiary
             }
             else
             {
                 user = CreateNewUser();
             }
             // Экземпляр FileManager передаётся в MainLoop, чтобы можно было использовать его методы SaveData и LoadData
-            MainLoop(user, foodDiary, fileManager, filePath);
+            MainLoop(user, foodDiaryManager, fileManager, filePath);
         }
 
         private static string GetUserConfirmation(string message)
@@ -87,7 +87,7 @@ namespace Дневник_Питания.Program
         // Метод MainLoop представляет собой основной цикл приложения,
         // где происходит взаимодействие с пользователем.
         // Он позволяет пользователю добавлять продукты, просматривать статистику и выходить из приложения
-        private static void MainLoop(User user, FoodDiary foodDiary, FileManager fileManager, string filePath) //
+        private static void MainLoop(User user, FoodDiaryManager foodDiaryManager, FileManager fileManager, string filePath) //
         {
             while (true)
             {
@@ -102,15 +102,15 @@ namespace Дневник_Питания.Program
                 // Проверка на корректный ввод
                 if (action == "1")
                 {
-                    foodDiary.AddFood(); // Используем метод AddFood класса FoodDiary
+                    foodDiaryManager.AddFood(); // Используем метод AddFood класса FoodDiary
                 }
                 else if (action == "2")
                 {
-                    foodDiary.ShowStatistics(user); // Используем метод ShowStatistics класса FoodDiary
+                    foodDiaryManager.ShowStatistics(user); // Используем метод ShowStatistics класса FoodDiary
                 }
                 else if (action == "3")
                 {
-                    fileManager.SaveData(filePath, user, foodDiary.Foods); // Сохраняем список продуктов через экземпляр fileManager
+                    fileManager.SaveData(filePath, user, foodDiaryManager.Foods); // Сохраняем список продуктов через экземпляр fileManager
                     Console.WriteLine("До свидания! Хорошего дня!");
                     break;
                 }

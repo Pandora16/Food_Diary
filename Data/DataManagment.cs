@@ -1,8 +1,8 @@
 using System.Text.Json;
-using Дневник_Питания.Meal;
-using Дневник_Питания.UserManagment;
+using Дневник_Питания.Core.Interfaces;
+using Дневник_Питания.Core.Models;
 
-namespace Дневник_Питания.DataManagement
+namespace Дневник_Питания.Data
 {
     
     public class FileManager : IDataSaver, IDataLoader

@@ -1,6 +1,6 @@
-using Дневник_Питания.UserManagment;
+using Дневник_Питания.Core.Models;
 
-namespace Дневник_Питания;
+namespace Дневник_Питания.Core.Services;
 
 public partial class CalorieCalculator
 {

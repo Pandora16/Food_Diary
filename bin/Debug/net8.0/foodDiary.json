@@ -1,22 +1,31 @@
 {
   "User": {
     "Height": 170,
-    "Weight": 67,
-    "Age": 24,
+    "Weight": 55,
+    "Age": 19,
     "Gender": "\u0436",
     "ActivityLevel": "2",
-    "BMR": 0,
+    "BMR": 1356.5,
     "TargetCalories": 1200
   },
   "Foods": [
     {
-      "Name": "Eggplant ",
-      "Calories": 34,
-      "Proteins": 356,
-      "Fats": 256,
-      "Carbohydrates": 75,
+      "Name": "Cereal",
+      "Calories": 100,
+      "Proteins": 34,
+      "Fats": 56,
+      "Carbohydrates": 78,
       "MealTime": "\u0437\u0430\u0432\u0442\u0440\u0430\u043A",
-      "Date": "0001-01-01T00:00:00"
+      "Date": "2024-10-31T20:46:53.0869534+03:00"
+    },
+    {
+      "Name": "Soup ",
+      "Calories": 88,
+      "Proteins": 45,
+      "Fats": 77,
+      "Carbohydrates": 53,
+      "MealTime": "\u043E\u0431\u0435\u0434",
+      "Date": "2024-10-31T20:47:13.3939365+03:00"
     }
   ]
 }

@@ -1,4 +1,4 @@
-namespace Дневник_Питания.Consol;
+namespace Дневник_Питания.Core.Interfaces;
 
 // Интерфейс для пользовательского интерфейса
 public interface IUserInterface
