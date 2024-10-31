@@ -7,6 +7,7 @@ namespace Дневник_Питания.Core.Services
     public class UserInputManager : IUserInputManager
     {
         private readonly IUserInterface _userInterface;
+        private IUserInputManager _userInputManagerImplementation;
 
         public UserInputManager(IUserInterface userInterface)
         {
@@ -30,71 +31,73 @@ namespace Дневник_Питания.Core.Services
             }
         }
 
-        // Метод для ввода целого положительного числа (рост и вес)
-        public static int GetPositiveInteger(string message)
+        // Асинхронный метод для ввода положительного целого числа (например, для роста и веса)
+        public async Task<int> GetPositiveIntegerAsync(string message)
         {
             int value;
             while (true)
             {
-                Console.Write(message);
-                if (int.TryParse(Console.ReadLine(), out value) && value > 0)
+                await _userInterface.WriteMessageAsync(message);
+                if (int.TryParse(await _userInterface.ReadInputAsync(), out value) && value > 0)
                 {
                     return value;
                 }
-                Console.WriteLine("Ошибка! Введите целое положительное число.");
+                await _userInterface.WriteMessageAsync("Ошибка! Введите целое положительное число.");
             }
         }
 
-        // Метод для ввода положительного вещественного числа (ккал, жиры, белки, углеводы)
-        public double GetPositiveDouble(string message)
+        // Асинхронный метод для ввода положительного вещественного числа (ккал, жиры, белки, углеводы)
+        public async Task<double> GetPositiveDoubleAsync(string message)
         {
             double value;
             while (true)
             {
-                Console.Write(message);
-                if (double.TryParse(Console.ReadLine(), out value) && value >= 0)
+                await _userInterface.WriteMessageAsync(message);
+                if (double.TryParse(await _userInterface.ReadInputAsync(), out value) && value >= 0)
                 {
                     return value;
                 }
-                Console.WriteLine("Ошибка! Введите положительное число.");
+                await _userInterface.WriteMessageAsync("Ошибка! Введите положительное число.");
             }
         }
 
-        // Статический метод для ввода пола
-        public static string GetGender()
+        // Асинхронный метод для ввода пола
+        public async Task<string> GetGenderAsync()
         {
             while (true)
             {
-                Console.Write("Введите ваш пол (м/ж): ");
-                string gender = Console.ReadLine().ToLower();
+                await _userInterface.WriteMessageAsync("Введите ваш пол (м/ж): ");
+                string gender = (await _userInterface.ReadInputAsync()).ToLower();
+
                 if (gender == "м" || gender == "ж")
                 {
                     return gender;
                 }
-                Console.WriteLine("Ошибка! Введите 'м' или 'ж'.");
+
+                await _userInterface.WriteMessageAsync("Ошибка! Введите 'м' или 'ж'.");
             }
         }
 
-        // Статический метод для выбора уровня активности
-        public static string GetActivityLevel()
+        // Асинхронный метод для выбора уровня активности
+        public async Task<string> GetActivityLevelAsync()
         {
-            Console.WriteLine("Выберите уровень физической активности:");
-            Console.WriteLine("1. Сидячий образ жизни (нет физических упражнений)");
-            Console.WriteLine("2. Легкие упражнения (легкие физические нагрузки 1-3 раза в неделю)");
-            Console.WriteLine("3. Умеренные упражнения (умеренные физические нагрузки 3-5 раз в неделю)");
-            Console.WriteLine("4. Активный образ жизни (интенсивные физические нагрузки 6-7 раз в неделю)");
-            Console.WriteLine("5. Очень активный (очень интенсивные физические нагрузки и физическая работа)");
+            await _userInterface.WriteMessageAsync("Выберите уровень физической активности:");
+            await _userInterface.WriteMessageAsync("1. Сидячий образ жизни (нет физических упражнений)");
+            await _userInterface.WriteMessageAsync("2. Легкие упражнения (легкие физические нагрузки 1-3 раза в неделю)");
+            await _userInterface.WriteMessageAsync("3. Умеренные упражнения (умеренные физические нагрузки 3-5 раз в неделю)");
+            await _userInterface.WriteMessageAsync("4. Активный образ жизни (интенсивные физические нагрузки 6-7 раз в неделю)");
+            await _userInterface.WriteMessageAsync("5. Очень активный (очень интенсивные физические нагрузки и физическая работа)");
 
-            string choice;
             while (true)
             {
-                Console.Write("Ваш выбор (1-5): ");
-                choice = Console.ReadLine();
+                await _userInterface.WriteMessageAsync("Ваш выбор (1-5): ");
+                string choice = await _userInterface.ReadInputAsync();
+
                 if (choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5")
                 {
                     return choice;
                 }
-                Console.WriteLine("Ошибка! Пожалуйста, введите число от 1 до 5.");
+                await _userInterface.WriteMessageAsync("Ошибка! Пожалуйста, введите число от 1 до 5.");
             }
         }
     }

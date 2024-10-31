@@ -2,7 +2,8 @@ using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Models;
 using Дневник_Питания.Core.Services;
 using Дневник_Питания.Data;
-using static Дневник_Питания.Core.Services.UserInputManager;
+using System.Threading.Tasks;
+using Дневник_Питания.Interfaces;
 
 namespace Дневник_Питания.Program
 {
@@ -14,18 +15,18 @@ namespace Дневник_Питания.Program
             User user;
 
             // Создание необходимых интерфейсов
-            IUserInterface userInterface = new ConsoleUserInterface(); // Создаем интерфейс здесь
-            IUserInputManager inputManager = new UserInputManager(userInterface); // Передаем его в конструктор
+            IUserInterface userInterface = new ConsoleUserInterface();
+            IUserInputManager inputManager = new UserInputManager(userInterface);
             ICalorieCalculator calorieCalculator = new CalorieCalculator();
 
-            // Создаем экземпляр FoodDiaryManager с необходимыми зависимостями
+            // Создаем экземпляр FoodDiaryRepository для работы с данными
+            IFoodDiaryRepository foodDiaryRepository = new FoodDiaryRepository();
             FoodDiaryManager foodDiaryManager = new FoodDiaryManager(inputManager, calorieCalculator, userInterface);
-            FileManager fileManager = new FileManager();
 
             // Удаление загруженных данных, если они есть, по выбору пользователя 
             if (File.Exists(filePath))
             {
-                string response = GetUserConfirmation("Хотите очистить данные и начать заново? (да/нет)");
+                string response = await GetUserConfirmation("Хотите очистить данные и начать заново? (да/нет)");
 
                 if (response == "да")
                 {
@@ -38,30 +39,30 @@ namespace Дневник_Питания.Program
             if (File.Exists(filePath))
             {
                 Console.WriteLine("Загрузка данных из файла...");
-                (user, List<Food> foods) = fileManager.LoadData(filePath); // Используем экземпляр fileManager
+                (user, var foods) = await foodDiaryRepository.LoadDataAsync(filePath);
                 if (user == null)
                 {
                     Console.WriteLine("Ошибка при загрузке данных.");
                     return;
                 }
-                foodDiaryManager.Foods.AddRange(foods); // Добавляем загруженные продукты в foodDiary
+                foodDiaryManager.Foods.AddRange(foods);
             }
             else
             {
-                user = CreateNewUser(calorieCalculator); // Передаем экземпляр calorieCalculator
+                user = await CreateNewUser(inputManager, calorieCalculator);
             }
 
-            // Экземпляр FileManager передаётся в MainLoop, чтобы можно было использовать его методы SaveData и LoadData
-            await MainLoop(user, foodDiaryManager, fileManager, filePath);
+            // Запуск основного цикла с передачей репозитория для сохранения
+            await MainLoop(user, foodDiaryManager, foodDiaryRepository, filePath);
         }
 
-        private static string GetUserConfirmation(string message)
+        private static async Task<string> GetUserConfirmation(string message)
         {
             string response;
             while (true)
             {
                 Console.WriteLine(message);
-                response = Console.ReadLine().ToLower();
+                response = (await Console.In.ReadLineAsync()).ToLower();
 
                 if (response == "да" || response == "нет")
                 {
@@ -75,22 +76,21 @@ namespace Дневник_Питания.Program
             return response;
         }
 
-        private static User CreateNewUser(ICalorieCalculator calorieCalculator)
+        private static async Task<User> CreateNewUser(IUserInputManager inputManager, ICalorieCalculator calorieCalculator)
         {
             User user = new User();
             Console.WriteLine("Добро пожаловать в электронный дневник питания!");
-            user.Height = GetPositiveInteger("Введите ваш рост (в см): ");
-            user.Weight = GetPositiveInteger("Введите ваш вес (в кг): ");
-            user.Age = GetPositiveInteger("Введите ваш возраст (в годах): ");
-            user.Gender = GetGender();
-            user.ActivityLevel = GetActivityLevel();
-            user.BMR = calorieCalculator.CalculateBMR(user); // Вызов метода через экземпляр
-            user.TargetCalories = GetPositiveInteger("Введите вашу целевую калорийность (в ккал): ");
+            user.Height = await inputManager.GetPositiveIntegerAsync("Введите ваш рост (в см): ");
+            user.Weight = await inputManager.GetPositiveIntegerAsync("Введите ваш вес (в кг): ");
+            user.Age = await inputManager.GetPositiveIntegerAsync("Введите ваш возраст (в годах): ");
+            user.Gender = await inputManager.GetGenderAsync();
+            user.ActivityLevel = await inputManager.GetActivityLevelAsync();
+            user.BMR = calorieCalculator.CalculateBMR(user);
+            user.TargetCalories = await inputManager.GetPositiveIntegerAsync("Введите вашу целевую калорийность (в ккал): ");
             return user;
         }
 
-
-        private static async Task MainLoop(User user, FoodDiaryManager foodDiaryManager, FileManager fileManager, string filePath)
+        private static async Task MainLoop(User user, FoodDiaryManager foodDiaryManager, IFoodDiaryRepository foodDiaryRepository, string filePath)
         {
             while (true)
             {
@@ -104,15 +104,15 @@ namespace Дневник_Питания.Program
 
                 if (action == "1")
                 {
-                    await foodDiaryManager.AddFoodAsync(); // Используем await для вызова асинхронного метода
+                    await foodDiaryManager.AddFoodAsync();
                 }
                 else if (action == "2")
                 {
-                    await foodDiaryManager.ShowStatisticsAsync(user); // Используем await для вызова асинхронного метода
+                    await foodDiaryManager.ShowStatisticsAsync(user);
                 }
                 else if (action == "3")
                 {
-                    fileManager.SaveData(filePath, user, foodDiaryManager.Foods); // Сохраняем список продуктов через экземпляр fileManager
+                    await foodDiaryRepository.SaveDataAsync(filePath, user, foodDiaryManager.Foods);
                     Console.WriteLine("До свидания! Хорошего дня!");
                     break;
                 }
@@ -122,6 +122,5 @@ namespace Дневник_Питания.Program
                 }
             }
         }
-
     }
 }

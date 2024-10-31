@@ -45,10 +45,10 @@ namespace Дневник_Питания.Core.Services
                 }
             }
 
-            food.Calories = _inputManager.GetPositiveDouble("Введите калорийность продукта (в ккал): ");
-            food.Proteins = _inputManager.GetPositiveDouble("Введите количество белков (в г): ");
-            food.Fats = _inputManager.GetPositiveDouble("Введите количество жиров (в г): ");
-            food.Carbohydrates = _inputManager.GetPositiveDouble("Введите количество углеводов (в г): ");
+            food.Calories = await _inputManager.GetPositiveDoubleAsync("Введите калорийность продукта (в ккал): ");
+            food.Proteins = await _inputManager.GetPositiveDoubleAsync("Введите количество белков (в г): ");
+            food.Fats = await _inputManager.GetPositiveDoubleAsync("Введите количество жиров (в г): ");
+            food.Carbohydrates = await _inputManager.GetPositiveDoubleAsync("Введите количество углеводов (в г): ");
             food.MealTime = await _inputManager.GetMealTimeAsync();
             food.Date = DateTime.Now;
 

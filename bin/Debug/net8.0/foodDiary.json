@@ -35,6 +35,15 @@
       "Carbohydrates": 67,
       "MealTime": "\u043E\u0431\u0435\u0434",
       "Date": "2024-10-31T22:38:46.5093143+03:00"
+    },
+    {
+      "Name": "Bread",
+      "Calories": 78,
+      "Proteins": 56,
+      "Fats": 78,
+      "Carbohydrates": 98,
+      "MealTime": "\u043E\u0431\u0435\u0434",
+      "Date": "2024-11-01T00:05:11.7900738+03:00"
     }
   ]
 }
