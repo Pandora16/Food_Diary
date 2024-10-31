@@ -1,54 +1,66 @@
+using System;
+using System.Threading.Tasks;
 using Дневник_Питания.Core.Interfaces;
 
-namespace Дневник_Питания.Core.Services;
-
-public class UserInputManager : IUserInputManager
+namespace Дневник_Питания.Core.Services
 {
-    // Метод для ввода целого положительного числа ( рост и вес )
-    public static int GetPositiveInteger(string message)
+    public class UserInputManager : IUserInputManager
     {
-        int value;
-        while (true)
-        {
-            Console.Write(message);
-            if (int.TryParse(Console.ReadLine(), out value) && value > 0)
-            {
-                return value;
-            }
-            Console.WriteLine("Ошибка! Введите целое положительное число.");
-        }
-    }
+        private readonly IUserInterface _userInterface;
 
-    // Метод для ввода положительного вещественного числа ( ккал, жиры, белки, углеводы )
-    public double GetPositiveDouble(string message)
-    {
-        double value;
-        while (true)
+        public UserInputManager(IUserInterface userInterface)
         {
-            Console.Write(message);
-            if (double.TryParse(Console.ReadLine(), out value) && value >= 0)
-            {
-                return value;
-            }
-            Console.WriteLine("Ошибка! Введите положительное число.");
+            _userInterface = userInterface;
         }
-    }
-    
-    // Метод для ввода времени приема пищи с проверкой
-        public string GetMealTime()
+
+        // Асинхронный метод для ввода времени приема пищи с проверкой
+        public async Task<string> GetMealTimeAsync()
         {
             while (true)
             {
-                Console.Write("Введите время приема пищи (завтрак, обед, ужин): ");
-                string mealTime = Console.ReadLine().ToLower();
+                await _userInterface.WriteMessageAsync("Введите время приема пищи (завтрак, обед, ужин): ");
+                string mealTime = (await _userInterface.ReadInputAsync()).ToLower();
+
                 if (mealTime == "завтрак" || mealTime == "обед" || mealTime == "ужин")
                 {
                     return mealTime;
                 }
-                Console.WriteLine("Ошибка! Введите одно из значений: завтрак, обед, ужин.");
+
+                await _userInterface.WriteMessageAsync("Ошибка! Введите одно из значений: завтрак, обед, ужин.");
             }
         }
 
+        // Метод для ввода целого положительного числа (рост и вес)
+        public static int GetPositiveInteger(string message)
+        {
+            int value;
+            while (true)
+            {
+                Console.Write(message);
+                if (int.TryParse(Console.ReadLine(), out value) && value > 0)
+                {
+                    return value;
+                }
+                Console.WriteLine("Ошибка! Введите целое положительное число.");
+            }
+        }
+
+        // Метод для ввода положительного вещественного числа (ккал, жиры, белки, углеводы)
+        public double GetPositiveDouble(string message)
+        {
+            double value;
+            while (true)
+            {
+                Console.Write(message);
+                if (double.TryParse(Console.ReadLine(), out value) && value >= 0)
+                {
+                    return value;
+                }
+                Console.WriteLine("Ошибка! Введите положительное число.");
+            }
+        }
+
+        // Статический метод для ввода пола
         public static string GetGender()
         {
             while (true)
@@ -63,6 +75,7 @@ public class UserInputManager : IUserInputManager
             }
         }
 
+        // Статический метод для выбора уровня активности
         public static string GetActivityLevel()
         {
             Console.WriteLine("Выберите уровень физической активности:");
@@ -84,5 +97,5 @@ public class UserInputManager : IUserInputManager
                 Console.WriteLine("Ошибка! Пожалуйста, введите число от 1 до 5.");
             }
         }
-
+    }
 }

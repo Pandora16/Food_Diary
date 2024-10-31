@@ -26,6 +26,15 @@
       "Carbohydrates": 53,
       "MealTime": "\u043E\u0431\u0435\u0434",
       "Date": "2024-10-31T20:47:13.3939365+03:00"
+    },
+    {
+      "Name": "Chocolate bar",
+      "Calories": 458,
+      "Proteins": 234,
+      "Fats": 45,
+      "Carbohydrates": 67,
+      "MealTime": "\u043E\u0431\u0435\u0434",
+      "Date": "2024-10-31T22:38:46.5093143+03:00"
     }
   ]
 }

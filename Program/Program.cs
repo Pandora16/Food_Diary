@@ -8,15 +8,15 @@ namespace Дневник_Питания.Program
 {
     internal static class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             string filePath = "foodDiary.json";
             User user;
 
             // Создание необходимых интерфейсов
-            IUserInputManager inputManager = new UserInputManager();
+            IUserInterface userInterface = new ConsoleUserInterface(); // Создаем интерфейс здесь
+            IUserInputManager inputManager = new UserInputManager(userInterface); // Передаем его в конструктор
             ICalorieCalculator calorieCalculator = new CalorieCalculator();
-            IUserInterface userInterface = new ConsoleUserInterface();
 
             // Создаем экземпляр FoodDiaryManager с необходимыми зависимостями
             FoodDiaryManager foodDiaryManager = new FoodDiaryManager(inputManager, calorieCalculator, userInterface);
@@ -49,11 +49,10 @@ namespace Дневник_Питания.Program
             else
             {
                 user = CreateNewUser(calorieCalculator); // Передаем экземпляр calorieCalculator
-                ;
             }
 
             // Экземпляр FileManager передаётся в MainLoop, чтобы можно было использовать его методы SaveData и LoadData
-            MainLoop(user, foodDiaryManager, fileManager, filePath);
+            await MainLoop(user, foodDiaryManager, fileManager, filePath);
         }
 
         private static string GetUserConfirmation(string message)
@@ -91,7 +90,7 @@ namespace Дневник_Питания.Program
         }
 
 
-        private static void MainLoop(User user, FoodDiaryManager foodDiaryManager, FileManager fileManager, string filePath)
+        private static async Task MainLoop(User user, FoodDiaryManager foodDiaryManager, FileManager fileManager, string filePath)
         {
             while (true)
             {
@@ -105,11 +104,11 @@ namespace Дневник_Питания.Program
 
                 if (action == "1")
                 {
-                    foodDiaryManager.AddFood(); // Используем метод AddFood класса FoodDiary
+                    await foodDiaryManager.AddFoodAsync(); // Используем await для вызова асинхронного метода
                 }
                 else if (action == "2")
                 {
-                    foodDiaryManager.ShowStatistics(user); // Используем метод ShowStatistics класса FoodDiary
+                    await foodDiaryManager.ShowStatisticsAsync(user); // Используем await для вызова асинхронного метода
                 }
                 else if (action == "3")
                 {
@@ -123,5 +122,6 @@ namespace Дневник_Питания.Program
                 }
             }
         }
+
     }
 }

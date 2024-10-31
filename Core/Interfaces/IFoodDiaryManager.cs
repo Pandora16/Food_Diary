@@ -4,6 +4,6 @@ namespace Дневник_Питания.Core.Interfaces;
 
 public interface IFoodDiaryManager
 {
-    void AddFood();
-    void ShowStatistics(User user);
+    Task AddFoodAsync();
+    Task ShowStatisticsAsync(User user);
 }

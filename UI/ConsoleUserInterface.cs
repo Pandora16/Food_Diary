@@ -1,14 +1,16 @@
+using System;
+using System.Threading.Tasks;
 using Дневник_Питания.Core.Interfaces;
 
 public class ConsoleUserInterface : IUserInterface
 {
-    public void WriteMessage(string message)
+    public async Task<string> ReadInputAsync()
     {
-        Console.WriteLine(message);
+        return await Task.Run(() => Console.ReadLine());
     }
 
-    public string ReadInput()
+    public async Task WriteMessageAsync(string message)
     {
-        return Console.ReadLine();
+        await Task.Run(() => Console.WriteLine(message));
     }
 }
