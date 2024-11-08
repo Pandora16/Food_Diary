@@ -1,6 +1,5 @@
 using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Models;
-using System.Threading.Tasks;
 
 namespace Дневник_Питания.Core.Services
 {
@@ -21,7 +20,7 @@ namespace Дневник_Питания.Core.Services
         {
             Food food = new Food();
 
-            // Получение данных о продукте от пользователя
+            // Сбор данных о продукте от пользователя
             while (true)
             {
                 await _userInterface.WriteMessageAsync("Введите название продукта: ");
@@ -41,7 +40,7 @@ namespace Дневник_Питания.Core.Services
                 }
             }
 
-            // Получение значений пищевой ценности
+            // Сбор информации о питательной ценности продукта
             food.Calories = await _inputManager.GetPositiveDoubleAsync("Введите калорийность продукта (в ккал): ");
             food.Proteins = await _inputManager.GetPositiveDoubleAsync("Введите количество белков (в г): ");
             food.Fats = await _inputManager.GetPositiveDoubleAsync("Введите количество жиров (в г): ");
@@ -49,14 +48,14 @@ namespace Дневник_Питания.Core.Services
             food.MealTime = await _inputManager.GetMealTimeAsync();
             food.Date = DateTime.Now;
 
-            // Добавление продукта в репозиторий
+            // Передаем сохранение продукта в репозиторий
             await _foodRepository.SaveFoodAsync(food);
             await _userInterface.WriteMessageAsync("Продукт успешно добавлен!");
         }
 
         public async Task SaveAllDataAsync(User user)
         {
-            // Использование репозитория для сохранения данных без параметра filePath
+            // Передаем сохранение данных пользователя и продуктов в репозиторий
             var allFoods = await _foodRepository.GetAllFoodsAsync();
             await _foodRepository.SaveDataAsync(user, allFoods);
         }

@@ -23,3 +23,5 @@ C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\runti
 C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.csproj.AssemblyReference.cache
 C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дневник Питания.sourcelink.json
 C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\_______ .6562A0EF.Up2Date
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll

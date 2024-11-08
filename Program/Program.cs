@@ -1,9 +1,11 @@
 using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Models;
 using Дневник_Питания.Core.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Дневник_Питания.Core.Repositories;
 
 namespace Дневник_Питания.Program
 {
@@ -11,14 +13,18 @@ namespace Дневник_Питания.Program
     {
         static async Task Main(string[] args)
         {
+            // Конфигурация DI контейнера
+            var serviceProvider = ConfigureServices();
+            
+            // Разрешение зависимостей через DI контейнер
+            var userInterface = serviceProvider.GetRequiredService<IUserInterface>();
+            var inputManager = serviceProvider.GetRequiredService<IUserInputManager>();
+            var calorieCalculator = serviceProvider.GetRequiredService<ICalorieCalculator>();
+            var foodRepository = serviceProvider.GetRequiredService<IFoodRepository>();
+            var foodService = serviceProvider.GetRequiredService<IFoodService>();
+            var statisticsService = serviceProvider.GetRequiredService<IStatisticsService>();
+
             string filePath = "foodDiary.json";
-            IUserInterface userInterface = new ConsoleUserInterface();
-            IUserInputManager inputManager = new UserInputManager(userInterface);
-            ICalorieCalculator calorieCalculator = new CalorieCalculator();
-
-            IFoodRepository foodRepository = new FoodRepository(filePath);  // Инициализация с путем внутри репозитория
-            IFoodService foodService = new FoodService(foodRepository, inputManager, userInterface);
-
             User user;
 
             if (File.Exists(filePath))
@@ -57,12 +63,28 @@ namespace Дневник_Питания.Program
                 // Если файла нет
                 user = await CreateNewUser(inputManager, calorieCalculator);
             }
-            
-            IStatisticsService statisticsService = new StatisticsService(userInterface, calorieCalculator, foodRepository);
 
+            // Переход в основной цикл приложения
             await MainLoop(user, foodService, statisticsService);
         }
 
+        // Метод для настройки DI контейнера
+        private static IServiceProvider ConfigureServices()
+        {
+            var serviceCollection = new ServiceCollection();
+
+            // Регистрируем интерфейсы и их реализации
+            serviceCollection.AddSingleton<IUserInputManager, UserInputManager>();
+            serviceCollection.AddSingleton<IUserInterface, ConsoleUserInterface>();
+            serviceCollection.AddSingleton<ICalorieCalculator, CalorieCalculator>();
+            serviceCollection.AddSingleton<IFoodRepository>(provider => new FoodRepository("foodDiary.json"));
+            serviceCollection.AddSingleton<IFoodService, FoodService>();
+            serviceCollection.AddSingleton<IStatisticsService, StatisticsService>();
+
+            return serviceCollection.BuildServiceProvider();
+        }
+
+        // Метод для создания нового пользователя
         private static async Task<User> CreateNewUser(IUserInputManager inputManager, ICalorieCalculator calorieCalculator)
         {
             Console.WriteLine("Добро пожаловать в электронный дневник питания!");
@@ -79,6 +101,7 @@ namespace Дневник_Питания.Program
             return user;
         }
 
+        // Метод для основного цикла программы
         private static async Task MainLoop(User user, IFoodService foodService, IStatisticsService statisticsService)
         {
             while (true)

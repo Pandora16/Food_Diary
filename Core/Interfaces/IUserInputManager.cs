@@ -11,4 +11,5 @@ namespace Дневник_Питания.Core.Interfaces
         Task<string> GetGenderAsync();
         Task<string> GetActivityLevelAsync();
     }
+    
 }
