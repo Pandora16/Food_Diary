@@ -1,9 +1,9 @@
 using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Models;
 using Дневник_Питания.Core.Services;
-using Дневник_Питания.Data;
+using System;
+using System.IO;
 using System.Threading.Tasks;
-using Дневник_Питания.Interfaces;
 
 namespace Дневник_Питания.Program
 {
@@ -12,113 +12,99 @@ namespace Дневник_Питания.Program
         static async Task Main(string[] args)
         {
             string filePath = "foodDiary.json";
-            User user;
-
-            // Создание необходимых интерфейсов
             IUserInterface userInterface = new ConsoleUserInterface();
             IUserInputManager inputManager = new UserInputManager(userInterface);
             ICalorieCalculator calorieCalculator = new CalorieCalculator();
 
-            // Создаем экземпляр FoodDiaryRepository для работы с данными
-            IFoodDiaryRepository foodDiaryRepository = new FoodDiaryRepository();
-            FoodDiaryManager foodDiaryManager = new FoodDiaryManager(inputManager, calorieCalculator, userInterface);
+            IFoodRepository foodRepository = new FoodRepository(filePath);  // Инициализация с путем внутри репозитория
+            IFoodService foodService = new FoodService(foodRepository, inputManager, userInterface);
 
-            // Удаление загруженных данных, если они есть, по выбору пользователя 
+            User user;
+
             if (File.Exists(filePath))
             {
-                string response = await GetUserConfirmation("Хотите очистить данные и начать заново? (да/нет)");
-
-                if (response == "да")
+                string response;
+                while (true)
                 {
-                    File.Delete(filePath);
-                    Console.WriteLine("Данные очищены.");
+                    Console.WriteLine("Хотите очистить данные и начать заново? (да/нет)");
+                    response = Console.ReadLine()?.ToLower();
+                    if (response == "да")
+                    {
+                        File.Delete(filePath); // Удаление старого файла
+                        Console.WriteLine("Данные очищены.");
+                        user = await CreateNewUser(inputManager, calorieCalculator); // Создание нового пользователя
+                        break; // Выход из цикла
+                    }
+                    else if (response == "нет")
+                    {
+                        Console.WriteLine("Загрузка данных из файла...");
+                        user = await foodRepository.LoadUserAsync();
+                        if (user == null)
+                        {
+                            Console.WriteLine("Ошибка при загрузке данных.");
+                            return;
+                        }
+                        break; // Выход из цикла
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ошибка! Пожалуйста, введите 'да' или 'нет'.");
+                    }
                 }
-            }
-
-            // Загрузка данных из файла, если они есть
-            if (File.Exists(filePath))
-            {
-                Console.WriteLine("Загрузка данных из файла...");
-                (user, var foods) = await foodDiaryRepository.LoadDataAsync(filePath);
-                if (user == null)
-                {
-                    Console.WriteLine("Ошибка при загрузке данных.");
-                    return;
-                }
-                foodDiaryManager.Foods.AddRange(foods);
             }
             else
             {
+                // Если файла нет
                 user = await CreateNewUser(inputManager, calorieCalculator);
             }
+            
+            IStatisticsService statisticsService = new StatisticsService(userInterface, calorieCalculator, foodRepository);
 
-            // Запуск основного цикла с передачей репозитория для сохранения
-            await MainLoop(user, foodDiaryManager, foodDiaryRepository, filePath);
-        }
-
-        private static async Task<string> GetUserConfirmation(string message)
-        {
-            string response;
-            while (true)
-            {
-                Console.WriteLine(message);
-                response = (await Console.In.ReadLineAsync()).ToLower();
-
-                if (response == "да" || response == "нет")
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Ошибка! Введите 'да' или 'нет'.");
-                }
-            }
-            return response;
+            await MainLoop(user, foodService, statisticsService);
         }
 
         private static async Task<User> CreateNewUser(IUserInputManager inputManager, ICalorieCalculator calorieCalculator)
         {
-            User user = new User();
             Console.WriteLine("Добро пожаловать в электронный дневник питания!");
-            user.Height = await inputManager.GetPositiveIntegerAsync("Введите ваш рост (в см): ");
-            user.Weight = await inputManager.GetPositiveIntegerAsync("Введите ваш вес (в кг): ");
-            user.Age = await inputManager.GetPositiveIntegerAsync("Введите ваш возраст (в годах): ");
-            user.Gender = await inputManager.GetGenderAsync();
-            user.ActivityLevel = await inputManager.GetActivityLevelAsync();
+            User user = new User
+            {
+                Height = await inputManager.GetPositiveIntegerAsync("Введите ваш рост (в см): "),
+                Weight = await inputManager.GetPositiveIntegerAsync("Введите ваш вес (в кг): "),
+                Age = await inputManager.GetPositiveIntegerAsync("Введите ваш возраст (в годах): "),
+                Gender = await inputManager.GetGenderAsync(),
+                ActivityLevel = await inputManager.GetActivityLevelAsync()
+            };
             user.BMR = calorieCalculator.CalculateBMR(user);
             user.TargetCalories = await inputManager.GetPositiveIntegerAsync("Введите вашу целевую калорийность (в ккал): ");
             return user;
         }
 
-        private static async Task MainLoop(User user, FoodDiaryManager foodDiaryManager, IFoodDiaryRepository foodDiaryRepository, string filePath)
+        private static async Task MainLoop(User user, IFoodService foodService, IStatisticsService statisticsService)
         {
             while (true)
             {
-                Console.WriteLine(
-                    "\nВы можете добавлять продукты, учитывая их калорийность и пищевую ценность для расчёта сожжённых калорий.");
+                Console.WriteLine("\nВыберите действие:");
                 Console.WriteLine("1. Добавить продукт");
-                Console.WriteLine("2. Просмотреть статистику");
+                Console.WriteLine("2. Показать статистику");
                 Console.WriteLine("3. Выход");
-                Console.Write("Выберите действие (1-3): ");
+                Console.Write("Ваш выбор (1-3): ");
                 string action = Console.ReadLine();
 
-                if (action == "1")
+                switch (action)
                 {
-                    await foodDiaryManager.AddFoodAsync();
-                }
-                else if (action == "2")
-                {
-                    await foodDiaryManager.ShowStatisticsAsync(user);
-                }
-                else if (action == "3")
-                {
-                    await foodDiaryRepository.SaveDataAsync(filePath, user, foodDiaryManager.Foods);
-                    Console.WriteLine("До свидания! Хорошего дня!");
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Ошибка! Введите корректный номер действия (1-3).");
+                    case "1":
+                        await foodService.AddFoodAsync();
+                        break;
+                    case "2":
+                        await statisticsService.ShowStatisticsAsync(user);
+                        break;
+                    case "3":
+                        await foodService.SaveAllDataAsync(user);  // Сохранение данных без filePath
+                        Console.WriteLine("До свидания! Хорошего дня!");
+                        return;
+                    default:
+                        Console.WriteLine("Ошибка! Введите корректный номер действия (1-3).");
+                        break;
                 }
             }
         }

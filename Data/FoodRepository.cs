@@ -1,26 +1,50 @@
 using System.Text.Json;
+using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Models;
-using Дневник_Питания.Interfaces;
 
-namespace Дневник_Питания.Data;
-
-public class FoodDiaryRepository : IFoodDiaryRepository
+public class FoodRepository : IFoodRepository
 {
-    public async Task SaveDataAsync(string filePath, User user, List<Food> foods)
+    private readonly string _filePath;
+
+    public FoodRepository(string filePath)
     {
-        var data = new { User = user, Foods = foods };
-        string jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
-        await File.WriteAllTextAsync(filePath, jsonData);
+        _filePath = filePath;
     }
 
-    public async Task<(User, List<Food>)> LoadDataAsync(string filePath)
+    public async Task SaveDataAsync(User user, List<Food> foods)
     {
-        if (!File.Exists(filePath))
-            return (null, null);
+        var data = new FoodDiaryData { User = user, Foods = foods };
+        string jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+        await File.WriteAllTextAsync(_filePath, jsonData);
+    }
 
-        string jsonData = await File.ReadAllTextAsync(filePath);
+    public async Task<User> LoadUserAsync()
+    {
+        if (!File.Exists(_filePath))
+            return null;
+
+        string jsonData = await File.ReadAllTextAsync(_filePath);
         var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
-        return (data.User, data.Foods);
+        return data?.User;
+    }
+
+    public async Task<List<Food>> GetAllFoodsAsync()
+    {
+        if (!File.Exists(_filePath))
+            return new List<Food>();
+
+        string jsonData = await File.ReadAllTextAsync(_filePath);
+        var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
+        return data?.Foods ?? new List<Food>();
+    }
+
+    public async Task SaveFoodAsync(Food food)
+    {
+        var foods = await GetAllFoodsAsync();
+        foods.Add(food);
+
+        var user = await LoadUserAsync();
+        await SaveDataAsync(user, foods);
     }
 
     private class FoodDiaryData
