@@ -25,3 +25,13 @@ C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\Дн�
 C:\Users\79217\source\repos\Дневник Питания\obj\Debug\net8.0\_______ .6562A0EF.Up2Date
 C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Logging.Configuration.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Logging.Console.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\79217\source\repos\Дневник Питания\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll

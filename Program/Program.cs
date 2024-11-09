@@ -1,11 +1,13 @@
+using Microsoft.Extensions.Logging;
 using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Models;
 using Дневник_Питания.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.IO;
-using System.Threading.Tasks;
+using Дневник_Питания.Core.Interfaces.Repositories;
+using Дневник_Питания.Core.Interfaces.Services;
+using Дневник_Питания.Core.Interfaces.UI;
 using Дневник_Питания.Core.Repositories;
+using Дневник_Питания.Core.Services.Business;
 
 namespace Дневник_Питания.Program
 {
@@ -15,57 +17,19 @@ namespace Дневник_Питания.Program
         {
             // Конфигурация DI контейнера
             var serviceProvider = ConfigureServices();
-            
-            // Разрешение зависимостей через DI контейнер
-            var userInterface = serviceProvider.GetRequiredService<IUserInterface>();
-            var inputManager = serviceProvider.GetRequiredService<IUserInputManager>();
-            var calorieCalculator = serviceProvider.GetRequiredService<ICalorieCalculator>();
-            var foodRepository = serviceProvider.GetRequiredService<IFoodRepository>();
-            var foodService = serviceProvider.GetRequiredService<IFoodService>();
-            var statisticsService = serviceProvider.GetRequiredService<IStatisticsService>();
 
-            string filePath = "foodDiary.json";
-            User user;
+            // Получение логгера
+            var logger = serviceProvider.GetRequiredService<ILogger>();
+            logger.LogInformation("Программа запущена.");
 
-            if (File.Exists(filePath))
-            {
-                string response;
-                while (true)
-                {
-                    Console.WriteLine("Хотите очистить данные и начать заново? (да/нет)");
-                    response = Console.ReadLine()?.ToLower();
-                    if (response == "да")
-                    {
-                        File.Delete(filePath); // Удаление старого файла
-                        Console.WriteLine("Данные очищены.");
-                        user = await CreateNewUser(inputManager, calorieCalculator); // Создание нового пользователя
-                        break; // Выход из цикла
-                    }
-                    else if (response == "нет")
-                    {
-                        Console.WriteLine("Загрузка данных из файла...");
-                        user = await foodRepository.LoadUserAsync();
-                        if (user == null)
-                        {
-                            Console.WriteLine("Ошибка при загрузке данных.");
-                            return;
-                        }
-                        break; // Выход из цикла
-                    }
-                    else
-                    {
-                        Console.WriteLine("Ошибка! Пожалуйста, введите 'да' или 'нет'.");
-                    }
-                }
-            }
-            else
-            {
-                // Если файла нет
-                user = await CreateNewUser(inputManager, calorieCalculator);
-            }
+            // Получение менеджера дневника из DI контейнера
+            var foodDiaryManager = serviceProvider.GetRequiredService<FoodDiaryManager>();
 
-            // Переход в основной цикл приложения
-            await MainLoop(user, foodService, statisticsService);
+            // Проверка и загрузка данных пользователя
+            User user = await InitializeUserData(serviceProvider, logger);
+
+            // Запуск основного цикла через FoodDiaryManager
+            await foodDiaryManager.RunAsync(user);
         }
 
         // Метод для настройки DI контейнера
@@ -73,24 +37,70 @@ namespace Дневник_Питания.Program
         {
             var serviceCollection = new ServiceCollection();
 
-            // Регистрируем интерфейсы и их реализации
+            // Регистрация интерфейсов и реализаций
             serviceCollection.AddSingleton<IUserInputManager, UserInputManager>();
             serviceCollection.AddSingleton<IUserInterface, ConsoleUserInterface>();
             serviceCollection.AddSingleton<ICalorieCalculator, CalorieCalculator>();
-            serviceCollection.AddSingleton<IFoodRepository>(provider => new FoodRepository("foodDiary.json"));
-
-            // Регистрация сервисов
-            serviceCollection.AddSingleton<IFoodManagementService, FoodManagementService>();  // Добавили регистрацию для FoodManagementService
-            serviceCollection.AddSingleton<IFoodDataService, FoodDataService>();  // Добавили регистрацию для FoodDataService
+            serviceCollection.AddSingleton<IFoodRepository>(provider => new FoodRepository("foodDiary.json", provider.GetRequiredService<ILogger<FoodRepository>>()));
+            serviceCollection.AddSingleton<IFoodManagementService, FoodManagementService>();
+            serviceCollection.AddSingleton<IFoodDataService, FoodDataService>();
             serviceCollection.AddSingleton<IFoodService, FoodService>();
             serviceCollection.AddSingleton<IStatisticsService, StatisticsService>();
+
+            // Регистрация FoodDiaryManager как единого контроллера
+            serviceCollection.AddSingleton<FoodDiaryManager>();
+
+            // Добавление логгирования
+            serviceCollection.AddLogging(configure => configure.AddConsole())
+                .AddSingleton<ILogger>(provider => provider.GetRequiredService<ILoggerFactory>().CreateLogger("General"));
+
 
             return serviceCollection.BuildServiceProvider();
         }
 
+        // Метод для проверки и загрузки данных пользователя
+        private static async Task<User> InitializeUserData(IServiceProvider serviceProvider, ILogger logger)
+        {
+            var foodRepository = serviceProvider.GetRequiredService<IFoodRepository>();
+            var inputManager = serviceProvider.GetRequiredService<IUserInputManager>();
+            var calorieCalculator = serviceProvider.GetRequiredService<ICalorieCalculator>();
+            string filePath = "foodDiary.json";
+
+            if (File.Exists(filePath))
+            {
+                Console.WriteLine("Хотите очистить данные и начать заново? (да/нет)");
+                string response = Console.ReadLine()?.ToLower();
+                if (response == "да")
+                {
+                    File.Delete(filePath); // Удаление старого файла
+                    logger.LogInformation("Данные очищены.");
+                    return await CreateNewUser(inputManager, calorieCalculator, logger);
+                }
+                else if (response == "нет")
+                {
+                    logger.LogInformation("Загрузка данных из файла...");
+                    var user = await foodRepository.LoadUserAsync();
+                    if (user == null)
+                    {
+                        logger.LogError("Ошибка при загрузке данных.");
+                        Environment.Exit(1); // Завершение работы в случае ошибки
+                    }
+                    return user;
+                }
+                else
+                {
+                    logger.LogWarning("Неверный ввод, повторите попытку.");
+                    return await InitializeUserData(serviceProvider, logger); // Повторный вызов при ошибке ввода
+                }
+            }
+            else
+            {
+                return await CreateNewUser(inputManager, calorieCalculator, logger);
+            }
+        }
 
         // Метод для создания нового пользователя
-        private static async Task<User> CreateNewUser(IUserInputManager inputManager, ICalorieCalculator calorieCalculator)
+        private static async Task<User> CreateNewUser(IUserInputManager inputManager, ICalorieCalculator calorieCalculator, ILogger logger)
         {
             Console.WriteLine("Добро пожаловать в электронный дневник питания!");
             User user = new User
@@ -103,38 +113,8 @@ namespace Дневник_Питания.Program
             };
             user.BMR = calorieCalculator.CalculateBMR(user);
             user.TargetCalories = await inputManager.GetPositiveIntegerAsync("Введите вашу целевую калорийность (в ккал): ");
+            logger.LogInformation("Новый пользователь успешно создан.");
             return user;
-        }
-
-        // Метод для основного цикла программы
-        private static async Task MainLoop(User user, IFoodService foodService, IStatisticsService statisticsService)
-        {
-            while (true)
-            {
-                Console.WriteLine("\nВыберите действие:");
-                Console.WriteLine("1. Добавить продукт");
-                Console.WriteLine("2. Показать статистику");
-                Console.WriteLine("3. Выход");
-                Console.Write("Ваш выбор (1-3): ");
-                string action = Console.ReadLine();
-
-                switch (action)
-                {
-                    case "1":
-                        await foodService.AddFoodAsync();
-                        break;
-                    case "2":
-                        await statisticsService.ShowStatisticsAsync(user);
-                        break;
-                    case "3":
-                        await foodService.SaveAllDataAsync(user);  // Сохранение данных без filePath
-                        Console.WriteLine("До свидания! Хорошего дня!");
-                        return;
-                    default:
-                        Console.WriteLine("Ошибка! Введите корректный номер действия (1-3).");
-                        break;
-                }
-            }
         }
     }
 }

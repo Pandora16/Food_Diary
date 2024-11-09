@@ -1,7 +1,5 @@
 
-using System.Threading.Tasks;
-
-namespace Дневник_Питания.Core.Interfaces
+namespace Дневник_Питания.Core.Interfaces.UI
 {
     public interface IUserInputManager
     {

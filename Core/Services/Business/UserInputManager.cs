@@ -1,8 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Дневник_Питания.Core.Interfaces;
+using Дневник_Питания.Core.Interfaces.UI;
 
-namespace Дневник_Питания.Core.Services
+namespace Дневник_Питания.Core.Services.Business
 {
     public class UserInputManager : IUserInputManager
     {

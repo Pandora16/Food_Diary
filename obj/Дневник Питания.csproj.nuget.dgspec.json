@@ -54,6 +54,14 @@
               "target": "Package",
               "version": "[8.0.1, )"
             },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.Extensions.Logging.Console": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
             "Moq": {
               "target": "Package",
               "version": "[4.20.72, )"
