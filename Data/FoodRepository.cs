@@ -22,18 +22,24 @@ namespace Дневник_Питания.Core.Repositories
 
         public async Task<User> LoadUserAsync()
         {
-            if (!File.Exists(_filePath))
+            try
+            {
+                if (!File.Exists(_filePath)) return null;
+                string jsonData = await File.ReadAllTextAsync(_filePath);
+                var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
+                return data?.User;
+            }
+            catch (Exception ex)
+            {
+                // Логирование ошибки
+                Console.WriteLine($"Ошибка загрузки данных: {ex.Message}");
                 return null;
-
-            string jsonData = await File.ReadAllTextAsync(_filePath);
-            var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
-            return data?.User;
+            }
         }
-
+        
         public async Task<List<Food>> GetAllFoodsAsync()
         {
-            if (!File.Exists(_filePath))
-                return new List<Food>();
+            if (!File.Exists(_filePath)) return new List<Food>();
 
             string jsonData = await File.ReadAllTextAsync(_filePath);
             var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
