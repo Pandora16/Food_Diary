@@ -78,11 +78,16 @@ namespace Дневник_Питания.Program
             serviceCollection.AddSingleton<IUserInterface, ConsoleUserInterface>();
             serviceCollection.AddSingleton<ICalorieCalculator, CalorieCalculator>();
             serviceCollection.AddSingleton<IFoodRepository>(provider => new FoodRepository("foodDiary.json"));
+
+            // Регистрация сервисов
+            serviceCollection.AddSingleton<IFoodManagementService, FoodManagementService>();  // Добавили регистрацию для FoodManagementService
+            serviceCollection.AddSingleton<IFoodDataService, FoodDataService>();  // Добавили регистрацию для FoodDataService
             serviceCollection.AddSingleton<IFoodService, FoodService>();
             serviceCollection.AddSingleton<IStatisticsService, StatisticsService>();
 
             return serviceCollection.BuildServiceProvider();
         }
+
 
         // Метод для создания нового пользователя
         private static async Task<User> CreateNewUser(IUserInputManager inputManager, ICalorieCalculator calorieCalculator)
