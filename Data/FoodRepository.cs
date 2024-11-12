@@ -32,20 +32,25 @@ namespace Дневник_Питания.Core.Repositories
             }
         }
 
-        public async Task<User> LoadUserAsync()
+        public async Task<User?> LoadUserAsync()
         {
             try
             {
-                if (!File.Exists(_filePath))
+                if (File.Exists(_filePath))
                 {
-                    _logger.LogWarning("Файл данных не найден.");
+                    var json = await File.ReadAllTextAsync(_filePath);
+                    return JsonSerializer.Deserialize<User>(json);
+                }
+                else
+                {
+                    _logger.LogWarning("Файл не найден.");
                     return null;
                 }
-
-                string jsonData = await File.ReadAllTextAsync(_filePath);
-                var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
-                _logger.LogInformation("Данные пользователя успешно загружены.");
-                return data?.User;
+            }
+            catch (JsonException jsonEx)
+            {
+                _logger.LogError($"Ошибка десериализации JSON: {jsonEx.Message}");
+                return null;
             }
             catch (Exception ex)
             {
@@ -53,6 +58,7 @@ namespace Дневник_Питания.Core.Repositories
                 return null;
             }
         }
+
 
         public async Task<List<Food>> GetAllFoodsAsync()
         {
