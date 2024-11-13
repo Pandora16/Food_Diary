@@ -1,9 +1,9 @@
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using Дневник_Питания.Core.Interfaces.Repositories;
 using Дневник_Питания.Core.Models;
-using Microsoft.Extensions.Logging;
 
-namespace Дневник_Питания.Core.Repositories
+namespace Дневник_Питания.Data
 {
     public class FoodRepository : IFoodRepository
     {
@@ -85,7 +85,7 @@ namespace Дневник_Питания.Core.Repositories
             return foods;
         }
 
-        private class FoodDiaryData
+        public class FoodDiaryData
         {
             public User User { get; set; } = new User();
             public List<Food> Foods { get; set; } = new List<Food>();

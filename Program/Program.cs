@@ -1,15 +1,9 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Дневник_Питания.Core.Interfaces;
-using Дневник_Питания.Core.Interfaces.Repositories;
-using Дневник_Питания.Core.Interfaces.Services;
-using Дневник_Питания.Core.Interfaces.UI;
 using Дневник_Питания.Core.Models;
-using Дневник_Питания.Core.Repositories;
 using Дневник_Питания.Core.Services;
 using Дневник_Питания.Core.Services.Business;
 using Дневник_Питания.Core.Services.Utility;
+using Дневник_Питания.Data;
 
 namespace Дневник_Питания.Program
 {
