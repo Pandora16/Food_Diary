@@ -87,7 +87,8 @@ public class StatisticsService : IStatisticsService
             }
         }
 
-        // Вычисляем сожженные калории за выбранный период
+        // Вычисляем BMR и общие сожженные калории за выбранный период
+        user.BMR = _calorieCalculator.CalculateBMR(user);  // Инициализация BMR
         double dailyCaloriesBurned = _calorieCalculator.CalculateTotalCalories(user);
         int daysInPeriod = (now - startDate).Days + 1; // Умножаем на количество дней, включая начальный и конечный день
 
@@ -96,7 +97,7 @@ public class StatisticsService : IStatisticsService
         await _userInterface.WriteMessageAsync($"\nОбщая статистика за выбранный период времени:");
         await _userInterface.WriteMessageAsync($"Потреблено калорий: {totalCaloriesConsumed} ккал");
         
-        //await _userInterface.WriteMessageAsync($"Сожженные калории по расчету BMR: {totalCaloriesBurned} ккал");
+        await _userInterface.WriteMessageAsync($"Сожженные калории по расчету BMR: {totalCaloriesBurned} ккал");
 
         // Сравниваем потребленные калории с целевой калорийностью
         if (totalCaloriesConsumed <= totalCaloriesBurned && totalCaloriesConsumed <= user.TargetCalories)

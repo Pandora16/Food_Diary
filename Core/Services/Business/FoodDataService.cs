@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Threading.Tasks;
 using Дневник_Питания.Core.Interfaces.Repositories;
 using Дневник_Питания.Core.Interfaces.Services;
 using Дневник_Питания.Core.Models;
@@ -16,15 +16,14 @@ namespace Дневник_Питания.Core.Services.Business
 
         public async Task SaveAllDataAsync(User user)
         {
-            // Сохранение данных пользователя и продуктов в репозитории
             var allFoods = await _foodRepository.GetAllFoodsAsync();
             await _foodRepository.SaveDataAsync(user, allFoods);
         }
 
         public async Task<User> LoadUserAsync()
         {
-            var jsonData = await File.ReadAllTextAsync("foodDiary.json");
-            return JsonConvert.DeserializeObject<User>(jsonData);
+            var (user, _) = await _foodRepository.LoadDataAsync(); 
+            return user ?? new User();
         }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Дневник Питания")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4c3e8eccfc1188768199846759a626b3dd768e9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c99d4f478a5e9c826934dea3d274feffdea9bb4")]
 [assembly: System.Reflection.AssemblyProductAttribute("Дневник Питания")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Дневник Питания")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

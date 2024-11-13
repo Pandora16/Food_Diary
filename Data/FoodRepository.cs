@@ -32,53 +32,34 @@ namespace Дневник_Питания.Core.Repositories
             }
         }
 
-        public async Task<User?> LoadUserAsync()
+        public async Task<(User?, List<Food>)> LoadDataAsync()
         {
             try
             {
                 if (File.Exists(_filePath))
                 {
-                    var json = await File.ReadAllTextAsync(_filePath);
-                    return JsonSerializer.Deserialize<User>(json);
+                    string jsonData = await File.ReadAllTextAsync(_filePath);
+                    var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
+
+                    if (data == null)
+                    {
+                        _logger.LogWarning("Файл пуст или структура данных некорректна.");
+                        return (null, new List<Food>());
+                    }
+
+                    _logger.LogInformation("Данные пользователя и продукты успешно загружены.");
+                    return (data.User, data.Foods);
                 }
                 else
                 {
-                    _logger.LogWarning("Файл не найден.");
-                    return null;
-                }
-            }
-            catch (JsonException jsonEx)
-            {
-                _logger.LogError($"Ошибка десериализации JSON: {jsonEx.Message}");
-                return null;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Ошибка при загрузке данных пользователя: {ex.Message}");
-                return null;
-            }
-        }
-
-
-        public async Task<List<Food>> GetAllFoodsAsync()
-        {
-            try
-            {
-                if (!File.Exists(_filePath))
-                {
                     _logger.LogWarning("Файл данных не найден.");
-                    return new List<Food>();
+                    return (null, new List<Food>());
                 }
-
-                string jsonData = await File.ReadAllTextAsync(_filePath);
-                var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
-                _logger.LogInformation("Список продуктов успешно загружен.");
-                return data?.Foods ?? new List<Food>();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Ошибка при чтении списка продуктов: {ex.Message}");
-                return new List<Food>();
+                _logger.LogError($"Ошибка при чтении файла: {ex.Message}");
+                return (null, new List<Food>());
             }
         }
 
@@ -86,10 +67,8 @@ namespace Дневник_Питания.Core.Repositories
         {
             try
             {
-                var foods = await GetAllFoodsAsync();
+                var (user, foods) = await LoadDataAsync();
                 foods.Add(food);
-                
-                var user = await LoadUserAsync();
                 await SaveDataAsync(user, foods);
                 _logger.LogInformation("Продукт успешно добавлен.");
             }
@@ -100,10 +79,16 @@ namespace Дневник_Питания.Core.Repositories
             }
         }
 
+        public async Task<List<Food>> GetAllFoodsAsync()
+        {
+            var (_, foods) = await LoadDataAsync();
+            return foods;
+        }
+
         private class FoodDiaryData
         {
-            public User User { get; set; }
-            public List<Food> Foods { get; set; }
+            public User User { get; set; } = new User();
+            public List<Food> Foods { get; set; } = new List<Food>();
         }
     }
 }

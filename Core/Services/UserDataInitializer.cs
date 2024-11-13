@@ -44,7 +44,7 @@ namespace Дневник_Питания.Core.Services
                     try
                     {
                         _logger.LogInformation("Загрузка данных из файла...");
-                        var user = await _foodRepository.LoadUserAsync();
+                        var (user, _) = await _foodRepository.LoadDataAsync(); 
                         if (user == null)
                         {
                             _logger.LogError("Ошибка: данные пользователя не были загружены.");
