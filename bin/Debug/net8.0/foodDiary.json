@@ -1,76 +1,41 @@
 {
-  "User": {
-    "Height": 0,
-    "Weight": 0,
-    "Age": 0,
-    "Gender": null,
-    "ActivityLevel": null,
-    "BMR": 0,
-    "TargetCalories": 0
-  },
+  "User": null,
   "Foods": [
     {
       "Name": "\u043A\u0430\u0448\u0430",
-      "Calories": 100,
-      "Proteins": 34,
-      "Fats": 35,
-      "Carbohydrates": 67,
-      "MealTime": "\u0437\u0430\u0432\u0442\u0440\u0430\u043A",
-      "Date": "2024-11-12T17:00:52.1103101+03:00"
-    },
-    {
-      "Name": "\u0431\u043E\u0440\u0449",
       "Calories": 234.5,
       "Proteins": 34,
-      "Fats": 56,
-      "Carbohydrates": 76,
-      "MealTime": "\u043E\u0431\u0435\u0434",
-      "Date": "2024-11-12T17:05:41.079784+03:00"
-    },
-    {
-      "Name": "\u0413\u0440\u0435\u0447\u043A\u0430",
-      "Calories": 345.6,
-      "Proteins": 34,
-      "Fats": 758,
-      "Carbohydrates": 436,
-      "MealTime": "\u0443\u0436\u0438\u043D",
-      "Date": "2024-11-12T17:07:03.6796138+03:00"
-    },
-    {
-      "Name": "\u043A\u043E\u0444\u0435 ",
-      "Calories": 155,
-      "Proteins": 45,
       "Fats": 76,
-      "Carbohydrates": 34,
-      "MealTime": "\u0437\u0430\u0432\u0442\u0440\u0430\u043A",
-      "Date": "2024-11-12T17:07:17.1430869+03:00"
-    },
-    {
-      "Name": "\u0411\u0443\u0442\u0435\u0440\u0431\u0440\u043E\u0434",
-      "Calories": 234.2,
-      "Proteins": 34,
-      "Fats": 56,
-      "Carbohydrates": 67,
-      "MealTime": "\u043E\u0431\u0435\u0434",
-      "Date": "2024-11-12T19:59:21.8212614+03:00"
-    },
-    {
-      "Name": "\u0431\u0443\u043B\u043E\u0447\u043A\u0430",
-      "Calories": 145.6,
-      "Proteins": 45,
-      "Fats": 56,
       "Carbohydrates": 43,
-      "MealTime": "\u043E\u0431\u0435\u0434",
-      "Date": "2024-11-13T09:01:56.0745507+03:00"
+      "MealTime": "\u0437\u0430\u0432\u0442\u0440\u0430\u043A",
+      "Date": "2024-11-14T22:45:52.4802147+03:00"
     },
     {
-      "Name": "\u0431\u0430\u043D\u0430\u043D",
-      "Calories": 23.4,
-      "Proteins": 34,
-      "Fats": 32,
-      "Carbohydrates": 45,
+      "Name": "\u043A\u043E\u0444\u0435",
+      "Calories": 110,
+      "Proteins": 35,
+      "Fats": 67,
+      "Carbohydrates": 42,
       "MealTime": "\u0437\u0430\u0432\u0442\u0440\u0430\u043A",
-      "Date": "2024-11-13T09:22:15.1306262+03:00"
+      "Date": "2024-11-14T22:46:05.4035837+03:00"
+    },
+    {
+      "Name": "\u0441\u0443\u043F \u0441 \u0433\u0440\u0438\u0431\u0430\u043C\u0438",
+      "Calories": 225.6,
+      "Proteins": 56,
+      "Fats": 78,
+      "Carbohydrates": 54,
+      "MealTime": "\u043E\u0431\u0435\u0434",
+      "Date": "2024-11-14T22:46:20.2457646+03:00"
+    },
+    {
+      "Name": "\u0433\u0440\u0435\u0447\u043A\u0430 ",
+      "Calories": 343,
+      "Proteins": 56,
+      "Fats": 54,
+      "Carbohydrates": 32,
+      "MealTime": "\u0443\u0436\u0438\u043D",
+      "Date": "2024-11-14T22:46:34.9335611+03:00"
     }
   ]
 }

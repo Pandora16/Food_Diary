@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cxVDjxYmmac=",
+  "dgSpecHash": "lVfwyC2HdJU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\79217\\source\\repos\\Дневник Питания\\Дневник Питания.csproj",
+  "projectFilePath": "C:\\Users\\79217\\source\\repos\\Food_Diary\\Дневник Питания.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\79217\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\79217\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
