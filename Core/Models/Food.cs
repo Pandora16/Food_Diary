@@ -1,6 +1,5 @@
 //Класс для хранения данных о продукте (название, калории, белки, жиры, углеводы, время приема пищи)
-namespace Дневник_Питания.Core.Models 
-
+namespace Дневник_Питания.Core.Models
 {
     public class Food
     {
@@ -9,8 +8,7 @@ namespace Дневник_Питания.Core.Models
         public double Proteins { get; set; }
         public double Fats { get; set; }
         public double Carbohydrates { get; set; }
-        public string MealTime { get; set; }
+        public MealTime MealTime { get; set; }
         public DateTime Date { get; set; } // Дата, когда еда была съедена
-
     }
 }

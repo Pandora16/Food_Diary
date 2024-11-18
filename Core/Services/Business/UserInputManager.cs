@@ -1,5 +1,6 @@
 using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Interfaces.UI;
+using Дневник_Питания.Core.Models;
 
 namespace Дневник_Питания.Core.Services.Business
 {
@@ -14,21 +15,29 @@ namespace Дневник_Питания.Core.Services.Business
         }
 
         // Асинхронный метод для ввода времени приема пищи с проверкой
-        public async Task<string> GetMealTimeAsync()
+
+        public async Task<MealTime> GetMealTimeAsync()
         {
             while (true)
             {
                 await _userInterface.WriteMessageAsync("Введите время приема пищи (завтрак, обед, ужин): ");
-                string mealTime = (await _userInterface.ReadInputAsync()).ToLower();
+                string input = (await _userInterface.ReadInputAsync()).ToLower();
 
-                if (mealTime == "завтрак" || mealTime == "обед" || mealTime == "ужин")
+                switch (input)
                 {
-                    return mealTime;
+                    case "завтрак":
+                        return MealTime.Breakfast;
+                    case "обед":
+                        return MealTime.Lunch;
+                    case "ужин":
+                        return MealTime.Dinner;
+                    default:
+                        await _userInterface.WriteMessageAsync("Ошибка! Введите одно из значений: завтрак, обед, ужин.");
+                        break;
                 }
-
-                await _userInterface.WriteMessageAsync("Ошибка! Введите одно из значений: завтрак, обед, ужин.");
             }
         }
+
 
         // Асинхронный метод для ввода положительного целого числа (например, для роста и веса)
         public async Task<int> GetPositiveIntegerAsync(string message)
