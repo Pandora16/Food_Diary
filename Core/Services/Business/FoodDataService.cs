@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Дневник_Питания.Core.Interfaces.Repositories;
 using Дневник_Питания.Core.Interfaces.Services;
 using Дневник_Питания.Core.Models;
@@ -22,7 +21,7 @@ namespace Дневник_Питания.Core.Services.Business
 
         public async Task<User> LoadUserAsync()
         {
-            var (user, _) = await _foodRepository.LoadDataAsync(); 
+            var (user, _) = await _foodRepository.LoadDataAsync();
             return user ?? new User();
         }
     }
