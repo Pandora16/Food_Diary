@@ -20,9 +20,15 @@ namespace Дневник_Питания.Data
         {
             try
             {
-                var data = new FoodDiaryData { User = user, Foods = foods };
+                var data = new FoodDiaryData
+                {
+                    User = user ?? new User(),
+                    Foods = foods ?? new List<Food>()
+                };
+
                 string jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_filePath, jsonData);
+
                 _logger.LogInformation("Данные успешно сохранены.");
             }
             catch (Exception ex)
@@ -36,30 +42,32 @@ namespace Дневник_Питания.Data
         {
             try
             {
-                if (File.Exists(_filePath))
+                if (!File.Exists(_filePath))
                 {
-                    string jsonData = await File.ReadAllTextAsync(_filePath);
-                    var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
-
-                    if (data == null)
-                    {
-                        _logger.LogWarning("Файл пуст или структура данных некорректна.");
-                        return (null, new List<Food>());
-                    }
-
-                    _logger.LogInformation("Данные пользователя и продукты успешно загружены.");
-                    return (data.User, data.Foods);
+                    _logger.LogWarning("Файл данных не найден. Создание нового файла.");
+                    var initialData = new FoodDiaryData();
+                    await SaveDataAsync(initialData.User, initialData.Foods); // Инициализация нового файла
+                    return (initialData.User, initialData.Foods);
                 }
-                else
+
+                string jsonData = await File.ReadAllTextAsync(_filePath);
+                var data = JsonSerializer.Deserialize<FoodDiaryData>(jsonData);
+
+                if (data == null)
                 {
-                    _logger.LogWarning("Файл данных не найден.");
-                    return (null, new List<Food>());
+                    _logger.LogWarning("Файл повреждён. Инициализация нового файла.");
+                    var initialData = new FoodDiaryData();
+                    await SaveDataAsync(initialData.User, initialData.Foods);
+                    return (initialData.User, initialData.Foods);
                 }
+
+                _logger.LogInformation("Данные пользователя и продукты успешно загружены.");
+                return (data.User, data.Foods);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Ошибка при чтении файла: {ex.Message}");
-                return (null, new List<Food>());
+                throw;
             }
         }
 

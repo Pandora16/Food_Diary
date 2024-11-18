@@ -1,10 +1,10 @@
 using Moq;
 using NUnit.Framework;
+using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Models;
 using Дневник_Питания.Core.Services.Business;
-using Дневник_Питания.Core.Interfaces;
 
-namespace Дневник_Питания.Tests
+namespace Дневник_Питания.Tests.Core
 {
     [TestFixture]
     public class UserInputManagerTests

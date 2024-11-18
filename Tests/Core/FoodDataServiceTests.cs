@@ -1,10 +1,10 @@
-using NUnit.Framework;
 using Moq;
+using NUnit.Framework;
 using Дневник_Питания.Core.Interfaces.Repositories;
 using Дневник_Питания.Core.Models;
 using Дневник_Питания.Core.Services.Business;
 
-namespace Дневник_Питания.Tests.Services
+namespace Дневник_Питания.Tests.Core
 {
     public class FoodDataServiceTests
     {
