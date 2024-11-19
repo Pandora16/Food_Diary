@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Дневник Питания", "Дневник Питания.csproj", "{59BF8AFD-4CE3-4AC6-9294-9762261E0840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Дневник Питания", "Дневник Питания.csproj", "{59BF8AFD-4CE3-4AC6-9294-9762261E0840}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDiary.Tests", "..\FoodDiary.Tests\FoodDiary.Tests.csproj", "{D8A43080-B656-4869-AEB7-5AD88ABCF77B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +17,10 @@ Global
 		{59BF8AFD-4CE3-4AC6-9294-9762261E0840}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59BF8AFD-4CE3-4AC6-9294-9762261E0840}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59BF8AFD-4CE3-4AC6-9294-9762261E0840}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BFC99E71-C6A3-4068-9570-957D6AF899B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFC99E71-C6A3-4068-9570-957D6AF899B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFC99E71-C6A3-4068-9570-957D6AF899B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFC99E71-C6A3-4068-9570-957D6AF899B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8A43080-B656-4869-AEB7-5AD88ABCF77B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A43080-B656-4869-AEB7-5AD88ABCF77B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A43080-B656-4869-AEB7-5AD88ABCF77B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A43080-B656-4869-AEB7-5AD88ABCF77B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,3 +1,4 @@
+//Класс для вывода статистики : за день, за неделю, за месяц
 using Дневник_Питания.Core.Interfaces;
 using Дневник_Питания.Core.Interfaces.Repositories;
 using Дневник_Питания.Core.Interfaces.Services;

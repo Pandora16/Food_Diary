@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[17.11.1, )"
             },
+            "Microsoft.Playwright.NUnit": {
+              "target": "Package",
+              "version": "[1.27.1, )"
+            },
             "Moq": {
               "target": "Package",
               "version": "[4.20.72, )"

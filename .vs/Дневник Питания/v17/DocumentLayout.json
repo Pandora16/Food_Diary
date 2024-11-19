@@ -3,16 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\79217\\source\\repos\\Food_Diary\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BFC99E71-C6A3-4068-9570-957D6AF899B1}|..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodDiary.Tests.csproj|c:\\users\\79217\\riderprojects\\fooddiary.tests\\fooddiary.tests\\foodservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BFC99E71-C6A3-4068-9570-957D6AF899B1}|..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodDiary.Tests.csproj|c:\\users\\79217\\riderprojects\\fooddiary.tests\\fooddiary.tests\\statisticsservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BFC99E71-C6A3-4068-9570-957D6AF899B1}|..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodDiary.Tests.csproj|c:\\users\\79217\\riderprojects\\fooddiary.tests\\fooddiary.tests\\foodrepositorytests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BFC99E71-C6A3-4068-9570-957D6AF899B1}|..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodDiary.Tests.csproj|c:\\users\\79217\\riderprojects\\fooddiary.tests\\fooddiary.tests\\userinputmanagertests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D8A43080-B656-4869-AEB7-5AD88ABCF77B}|..\\FoodDiary.Tests\\FoodDiary.Tests.csproj|c:\\users\\79217\\source\\repos\\fooddiary.tests\\fooddataservicetests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{59BF8AFD-4CE3-4AC6-9294-9762261E0840}|\u0414\u043D\u0435\u0432\u043D\u0438\u043A \u041F\u0438\u0442\u0430\u043D\u0438\u044F.csproj|c:\\users\\79217\\source\\repos\\food_diary\\program\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,71 +17,40 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UserInputManagerTests.cs",
-              "DocumentMoniker": "C:\\Users\\79217\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\UserInputManagerTests.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\UserInputManagerTests.cs",
-              "ToolTip": "C:\\Users\\79217\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\UserInputManagerTests.cs",
-              "RelativeToolTip": "..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\UserInputManagerTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAaAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "FoodDataServiceTests.cs",
+              "DocumentMoniker": "C:\\Users\\79217\\source\\repos\\FoodDiary.Tests\\FoodDataServiceTests.cs",
+              "RelativeDocumentMoniker": "..\\FoodDiary.Tests\\FoodDataServiceTests.cs",
+              "ToolTip": "C:\\Users\\79217\\source\\repos\\FoodDiary.Tests\\FoodDataServiceTests.cs",
+              "RelativeToolTip": "..\\FoodDiary.Tests\\FoodDataServiceTests.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAmwFUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T19:35:39.62Z",
+              "WhenOpened": "2024-11-19T08:59:15.972Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "StatisticsServiceTests.cs",
-              "DocumentMoniker": "C:\\Users\\79217\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\StatisticsServiceTests.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\StatisticsServiceTests.cs",
-              "ToolTip": "C:\\Users\\79217\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\StatisticsServiceTests.cs",
-              "RelativeToolTip": "..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\StatisticsServiceTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T19:35:35.326Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FoodServiceTests.cs",
-              "DocumentMoniker": "C:\\Users\\79217\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodServiceTests.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodServiceTests.cs",
-              "ToolTip": "C:\\Users\\79217\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodServiceTests.cs",
-              "RelativeToolTip": "..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodServiceTests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T19:35:19.166Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FoodRepositoryTests.cs",
-              "DocumentMoniker": "C:\\Users\\79217\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodRepositoryTests.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodRepositoryTests.cs",
-              "ToolTip": "C:\\Users\\79217\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodRepositoryTests.cs",
-              "RelativeToolTip": "..\\..\\..\\RiderProjects\\FoodDiary.Tests\\FoodDiary.Tests\\FoodRepositoryTests.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T19:30:01.462Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\79217\\source\\repos\\Food_Diary\\Program\\Program.cs",
               "RelativeDocumentMoniker": "Program\\Program.cs",
               "ToolTip": "C:\\Users\\79217\\source\\repos\\Food_Diary\\Program\\Program.cs",
               "RelativeToolTip": "Program\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-14T19:25:55.511Z",
+              "WhenOpened": "2024-11-19T06:35:16.175Z",
               "EditorCaption": ""
             }
           ]
