@@ -20,11 +20,25 @@ namespace Дневник_Питания.Data
         {
             try
             {
-                var data = new FoodDiaryData
+                var data = new FoodDiaryData();
+
+                if (user != null)
                 {
-                    User = user ?? new User(),
-                    Foods = foods ?? new List<Food>()
-                };
+                    data.User = user;
+                }
+                else
+                {
+                    data.User = new User();
+                }
+
+                if (foods != null)
+                {
+                    data.Foods = foods;
+                }
+                else
+                {
+                    data.Foods = new List<Food>();
+                }
 
                 string jsonData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(_filePath, jsonData);
